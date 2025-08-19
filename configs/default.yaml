@@ -1,0 +1,43 @@
+# Cấu hình huấn luyện (có grid nhỏ, hợp lý để tránh timeout Kaggle)
+seed: 42
+test_size: 0.2
+cv_folds: 5
+scoring_primary: f1
+scoring_secondary: recall
+
+# Xử lý mất cân bằng: none | smote | rus
+resampling: none
+
+# Fingerprints RDKit (thêm/bớt tùy ý)
+fingerprints:
+  - maccs
+  - ecfp2
+  - ecfp4
+  - rdk7
+
+# Danh sách mô hình sử dụng
+models:
+  - svm
+  - rf
+  - xgb
+
+# Grid nhỏ, đủ ý nghĩa, tránh timeout
+grids:
+  svm:
+    kernel: ["linear", "rbf"]
+    C: [0.1, 1, 10, 100]
+    gamma: [1, 0.1, 0.01, 0.001]
+  rf:
+    n_estimators: [100, 200]
+    max_depth: [10, 20, 30]
+    min_samples_split: [2, 5]
+    min_samples_leaf: [1, 2]
+    class_weight: ["balanced"]
+  xgb:
+    max_depth: [3, 5]
+    learning_rate: [0.05, 0.1]
+    n_estimators: [150, 300]
+    min_child_weight: [1, 5]
+    gamma: [0, 0.1]
+    subsample: [0.8]
+    colsample_bytree: [0.8]
